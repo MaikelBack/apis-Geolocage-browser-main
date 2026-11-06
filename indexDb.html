@@ -1,0 +1,93 @@
+=<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <p><label for="idlivro">ID:</label><INPut input type="number" id="idlivro"/>
+    <p><label for="titulo">titulo:</label><INPut input type="text" id="titulo"/>
+    <p><label for="autor">Autor:</label><INPut input type="text" id="autor"/>
+     <p>   <button id="btndb">Inclur</button> </p>
+     <p><button id="btnr">Ler</button></p>
+     <p><button id="btnd">deletar</button></p>
+    <h1>indexDb</h1>
+
+    <script>
+     
+        let db
+        let requestDB = indexedDB.open('meudb',3);
+        requestDB.onsuccess =() =>{
+            db= requestDB.result
+        }
+
+       requestDB.onerror = () => {console.log(requestDB.error)} 
+
+       requestDB.onupgradeneeded=(e) => {
+        db= requestDB.result;
+        if(!db.objectStoreNames.contains('livros')) db.createObjectStore('livros', {keyPath:'id'})
+    };
+
+    onload = () => {
+        btndb.onclick = () => {
+            let livro = {
+                id: idlivro.value,
+                titulo: titulo.value,
+                autor: autor.value,
+
+            }
+            console.log(livro)
+            let transacaodb = db.transacaodb(['livros'],'readwrite');
+            let livroOS = transacaodb.objectStoreNames('livros');
+            let reqos = livroOS.add
+            reqos.onsuccess = (e) => {
+                console.log(reqos.result)
+            }
+            reqos.error = (e) => {
+                console.log(reqos.error)
+            }
+        }
+
+        btnr.onclick = () => {
+            let livro = {
+                id: idlivro.value,
+                titulo: titulo.value,
+                autor: autor.value,
+
+            }
+            console.log(livro)
+            let transacaodb = db.transacaodb(['livros'],'readonly');
+            let livroOS = transacaodb.objectStoreNames('livros');
+            let reqos = livroOS.add
+            reqos.onsuccess = (e) => {
+                console.log(reqos.result)
+            }
+            reqos.error = (e) => {
+                console.log(reqos.error)
+    }
+    btnD.onclick = () => {
+            let livro = {
+                id: idlivro.value,
+                titulo: titulo.value,
+                autor: autor.value,
+
+            }
+            console.log(livro)
+            let transacaodb = db.transacaodb(['livros'],'readwrite');
+            let livroOS = transacaodb.objectStoreNames('livros');
+            let reqos = livroOS.delete
+            reqos.onsuccess = (e) => {
+                console.log('livros excluidos')
+            }
+            reqos.error = (e) => {
+                console.log(reqos.error)
+    }
+}
+    }
+}
+    </script>
+</body>
+</html>
